@@ -8,17 +8,17 @@ use WebService::HealthGraph;
 SKIP: {
     skip 'Token required for live tests', 1 unless $ENV{RUNKEEPER_TOKEN};
 
-    my $rk = WebService::HealthGraph->new(
+    my $graph = WebService::HealthGraph->new(
         debug => 1,
         token => $ENV{RUNKEEPER_TOKEN},
     );
-    ok( $rk,           'compiles' );
-    ok( $rk->ua,       'ua' );
-    ok( $rk->base_url, 'base_url' );
+    ok( $graph,           'compiles' );
+    ok( $graph->ua,       'ua' );
+    ok( $graph->base_url, 'base_url' );
 
-    my $user = $rk->user;
+    my $user = $graph->user;
     ok( $user,        'get_user' );
-    ok( $rk->user_id, 'user_id' );
+    ok( $graph->user_id, 'user_id' );
 
     diag np $user->content;
     my $query
@@ -29,7 +29,7 @@ SKIP: {
             query => $query,
         );
 
-        my $feed = $rk->get($uri);
+        my $feed = $graph->get($uri);
         ok( $feed, 'GET weight feed' );
         diag np $feed->content;
     }
@@ -40,12 +40,12 @@ SKIP: {
             query => $query,
         );
 
-        my $feed = $rk->get($uri);
+        my $feed = $graph->get($uri);
         diag np $feed->content;
         ok( $feed, 'GET fitnessActivities feed' );
 
         if ( $feed->content->{items} ) {
-            my $item = $rk->get( $feed->content->{items}[0]{uri} );
+            my $item = $graph->get( $feed->content->{items}[0]{uri} );
             diag( np( $item->content ) );
         }
     }

@@ -126,12 +126,12 @@ be happily accepted.
 
 =head1 SYNOPSIS
 
-    my $rk = WebService::HealthGraph->new(
+    my $graph = WebService::HealthGraph->new(
         debug => 1,
         token => $token,
     );
 
-    my $user = $rk->user;
+    my $user = $graph->user;
 
     use Data::Printer;
     p $user->content;
@@ -148,7 +148,7 @@ be happily accepted.
         query => { noEarlierThan => $cutoff->ymd },
     );
 
-    my $feed = $rk->get($uri);
+    my $feed = $graph->get($uri);
     p $feed->content;
 
 =head2 get( $url, [$headers] )
