@@ -1,9 +1,9 @@
 use Test2::Bundle::Extended;
 
 use Test::RequiresInternet ('api.runkeeper.com' => 443);
-use WebService::Runkeeper;
+use WebService::HealthGraph;
 
-my $rk = WebService::Runkeeper->new( debug => 1 );
+my $rk = WebService::HealthGraph->new( debug => 1 );
 ok( $rk,           'compiles' );
 ok( $rk->ua,       'ua' );
 ok( $rk->base_url, 'base_url' );

@@ -1,4 +1,4 @@
-package WebService::Runkeeper::Response;
+package WebService::HealthGraph::Response;
 
 use Moo;
 
@@ -27,4 +27,4 @@ sub _build_content {
 
 1;
 __END__
-# ABSTRACT: Generic response object for WebService::Runkeeper
+# ABSTRACT: Generic response object for WebService::HealthGraph

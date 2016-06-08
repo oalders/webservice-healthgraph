@@ -2,4 +2,4 @@
 local
 *.swp
 .tidyall.d
-/WebService-Runkeeper*
+/WebService-HealthGraph*

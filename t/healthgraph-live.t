@@ -3,12 +3,12 @@ use Test2::Bundle::Extended;
 use Data::Printer;
 use Test::RequiresInternet ('api.runkeeper.com' => 443);
 use URI::FromHash qw( uri );
-use WebService::Runkeeper;
+use WebService::HealthGraph;
 
 SKIP: {
     skip 'Token required for live tests', 1 unless $ENV{RUNKEEPER_TOKEN};
 
-    my $rk = WebService::Runkeeper->new(
+    my $rk = WebService::HealthGraph->new(
         debug => 1,
         token => $ENV{RUNKEEPER_TOKEN},
     );

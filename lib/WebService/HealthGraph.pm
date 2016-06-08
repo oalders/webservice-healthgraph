@@ -1,13 +1,13 @@
 use strict;
 use warnings;
-package WebService::Runkeeper;
+package WebService::HealthGraph;
 
 use Moo;
 
 use Compress::Zlib qw( memGunzip );
 use JSON::MaybeXS qw( decode_json );
 use LWP::UserAgent                  ();
-use WebService::Runkeeper::Response ();
+use WebService::HealthGraph::Response ();
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
 use URI ();
@@ -41,7 +41,7 @@ has ua => (
 
 has user => (
     is      => 'ro',
-    isa     => InstanceOf ['WebService::Runkeeper::Response'],
+    isa     => InstanceOf ['WebService::HealthGraph::Response'],
     lazy    => 1,
     builder => '_build_user',
 );
@@ -106,7 +106,7 @@ sub get {
     }
 
     my $res = $self->ua->get( $url, %{$headers} );
-    return WebService::Runkeeper::Response->new( raw => $res );
+    return WebService::HealthGraph::Response->new( raw => $res );
 }
 
 1;
@@ -126,7 +126,7 @@ be happily accepted.
 
 =head1 SYNOPSIS
 
-    my $rk = WebService::Runkeeper->new(
+    my $rk = WebService::HealthGraph->new(
         debug => 1,
         token => $token,
     );

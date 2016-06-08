@@ -1,9 +1,45 @@
 NAME
-    WebService::Runkeeper - A thin wrapper around the Runkeeper (Health
+    WebService::HealthGraph - A thin wrapper around the Runkeeper (Health
     Graph) API
 
 VERSION
     version 0.000001
+
+SYNOPSIS
+        my $rk = WebService::HealthGraph->new(
+            debug => 1,
+            token => $token,
+        );
+
+        my $user = $rk->user;
+
+        use Data::Printer;
+        p $user->content;
+
+        # Fetch a weight feed
+
+        use DateTime ();
+        use URI::FromHash qw( uri );
+
+        my $cutoff = DateTime->now->subtract( days => 7 );
+
+        my $uri = uri(
+            path  => '/weight',
+            query => { noEarlierThan => $cutoff->ymd },
+        );
+
+        my $feed = $rk->get($uri);
+        p $feed->content;
+
+  get( $url, [$headers] )
+DESCRIPTION
+    BETA BETA BETA. The interface is subject to change.
+
+    This is a very thin wrapper around the Runkeeper (Health Graph) API. At
+    this point it assumes that you already have an OAuth token to connect
+    with. You can use Mojolicious::Plugin::Web::Auth::Site::Runkeeper to
+    create a token. If that doesn't suit you, patches to add OAuth token
+    retrieval to this module will be happily accepted.
 
 AUTHOR
     Olaf Alders <olaf@wundercounter.com>
