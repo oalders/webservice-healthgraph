@@ -2,6 +2,7 @@ requires "Compress::Zlib" => "0";
 requires "JSON::MaybeXS" => "0";
 requires "LWP::ConsoleLogger::Easy" => "0";
 requires "LWP::UserAgent" => "0";
+requires "List::AllUtils" => "0";
 requires "Moo" => "0";
 requires "Types::Standard" => "0";
 requires "Types::URI" => "0";
