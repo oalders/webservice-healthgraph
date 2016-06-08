@@ -3,7 +3,7 @@ package WebService::HealthGraph::Response;
 use Moo;
 
 use JSON::MaybeXS qw( decode_json );
-use Types::Standard qw( HashRef InstanceOf Maybe );
+use Types::Standard qw( Bool HashRef InstanceOf Maybe );
 
 has content => (
     is      => 'ro',
@@ -18,11 +18,23 @@ has raw => (
     handles => { code => 'code' },
 );
 
+has success => (
+    is      => 'ro',
+    isa     => Bool,
+    lazy    => 1,
+    builder => '_build_success',
+);
+
 sub _build_content {
     my $self    = shift;
     my $content = $self->raw->decoded_content;
 
     return $content ? decode_json($content) : undef;
+}
+
+sub _build_success {
+    my $self = shift;
+    return $self->raw->is_success && !$self->raw->header('X-Died');
 }
 
 1;
