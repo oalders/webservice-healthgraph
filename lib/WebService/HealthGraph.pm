@@ -142,7 +142,7 @@ be happily accepted.
 
     my $graph = WebService::HealthGraph->new(
         debug => 1,
-        token => $token,
+        token => 'foo',
     );
 
     my $user = $graph->user;
