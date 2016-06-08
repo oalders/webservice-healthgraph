@@ -1,6 +1,7 @@
 use Test2::Bundle::Extended;
 
 use Data::Printer;
+use List::AllUtils qw( any );
 use Test::RequiresInternet ( 'api.runkeeper.com' => 443 );
 use URI::FromHash qw( uri );
 use WebService::HealthGraph;
@@ -23,31 +24,22 @@ SKIP: {
     diag np $user->content;
     my $query
         = { noEarlierThan => DateTime->now->subtract( days => 7 )->ymd };
-    {
+
+    foreach my $key ( keys %{ $user->content } ) {
+        next
+            if any { $key eq $_ }
+        ( 'change_log', 'diabetes', 'records', 'settings', 'team', 'userID' );
+
         my $uri = uri(
-            path  => '/weight',
+            path  => $user->content->{$key},
             query => $query,
         );
 
         my $feed = $graph->get($uri);
-        ok( $feed, 'GET weight feed' );
+        ok( $feed,          "GET $uri" );
+        ok( $feed->success, '200 code' );
         diag np $feed->content;
-    }
 
-    {
-        my $uri = uri(
-            path  => '/fitnessActivities',
-            query => $query,
-        );
-
-        my $feed = $graph->get($uri);
-        diag np $feed->content;
-        ok( $feed, 'GET fitnessActivities feed' );
-
-        if ( $feed->content->{items} ) {
-            my $item = $graph->get( $feed->content->{items}[0]{uri} );
-            diag( np( $item->content ) );
-        }
     }
 }
 

@@ -6,6 +6,7 @@ use Moo;
 
 use Compress::Zlib qw( memGunzip );
 use JSON::MaybeXS qw( decode_json );
+use List::AllUtils qw( any );
 use LWP::UserAgent                    ();
 use WebService::HealthGraph::Response ();
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
@@ -86,16 +87,29 @@ sub get {
     my $top_level = $path_parts[0];
 
     my %type = (
-        fitnessActivities => 'FitnessActivity',
-        user              => 'User',
-        weight            => 'WeightSet',
+        backgroundActivities       => 'BackgroundActivitySet',
+        diabetes                   => 'DiabetesMeasurement',
+        fitnessActivities          => 'FitnessActivity',
+        generalMeasurements        => 'GeneralMeasurementSet',
+        nutrition                  => 'NutritionSet',
+        profile                    => 'Profile',
+        records                    => 'Records',
+        settings                   => 'Settings',
+        sleep                      => 'SleepSet',
+        strengthTrainingActivities => 'StrengthTrainingActivity',
+        team                       => 'Foo',
+        user                       => 'User',
+        weight                     => 'WeightSet',
     );
 
     unless ( exists $headers->{Accept} ) {
         my $accept = $type{$top_level};
 
         # Distinguish between fetching a single item and a feed of items.
-        unless ( $top_level eq 'user' ) {
+        unless (
+            any { $top_level eq $_ }
+            ( 'diabetes', 'user', 'profile', 'records' )
+            ) {
             unless ( scalar @path_parts > 1 ) {
                 $accept .= 'Feed';
             }
