@@ -26,3 +26,5 @@ sub _build_content {
 }
 
 1;
+__END__
+# ABSTRACT: Generic response object for WebService::Runkeeper
