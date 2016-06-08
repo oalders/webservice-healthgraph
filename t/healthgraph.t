@@ -1,6 +1,6 @@
 use Test2::Bundle::Extended;
 
-use Test::RequiresInternet ('api.runkeeper.com' => 443);
+use Test::RequiresInternet ( 'api.runkeeper.com' => 443 );
 use WebService::HealthGraph;
 
 my $graph = WebService::HealthGraph->new( debug => 1 );

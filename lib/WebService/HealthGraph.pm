@@ -6,7 +6,7 @@ use Moo;
 
 use Compress::Zlib qw( memGunzip );
 use JSON::MaybeXS qw( decode_json );
-use LWP::UserAgent                  ();
+use LWP::UserAgent                    ();
 use WebService::HealthGraph::Response ();
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
@@ -82,8 +82,8 @@ sub get {
     $url->host( $self->base_url->host );
 
     my @path_parts = $url->path_segments;
-    shift @path_parts; # first part is empty string with an absolute URL
-    my $top_level  = $path_parts[0];
+    shift @path_parts;    # first part is empty string with an absolute URL
+    my $top_level = $path_parts[0];
 
     my %type = (
         fitnessActivities => 'FitnessActivity',

@@ -1,7 +1,7 @@
 use Test2::Bundle::Extended;
 
 use Data::Printer;
-use Test::RequiresInternet ('api.runkeeper.com' => 443);
+use Test::RequiresInternet ( 'api.runkeeper.com' => 443 );
 use URI::FromHash qw( uri );
 use WebService::HealthGraph;
 
@@ -17,7 +17,7 @@ SKIP: {
     ok( $graph->base_url, 'base_url' );
 
     my $user = $graph->user;
-    ok( $user,        'get_user' );
+    ok( $user,           'get_user' );
     ok( $graph->user_id, 'user_id' );
 
     diag np $user->content;
