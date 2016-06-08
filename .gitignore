@@ -1,0 +1,5 @@
+.build
+local
+*.swp
+.tidyall.d
+/WebService-Runkeeper*
