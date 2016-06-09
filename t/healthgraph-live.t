@@ -22,6 +22,7 @@ SKIP: {
     ok( $user,           'get_user' );
     ok( $graph->user_id, 'user_id' );
     ok( $graph->url_map, 'url_map' );
+    diag( np( $graph->url_map ) );
 
     my @non_feeds = ( 'change_log', 'profile', 'settings', 'records', );
 
@@ -29,7 +30,7 @@ SKIP: {
     my $query
         = { noEarlierThan => DateTime->now->subtract( days => 7 )->ymd };
     foreach my $key ( sort keys %{ $graph->url_map } ) {
-        next if any { $key eq $_ } ( @non_feeds, 'diabetes', 'team' );
+        next if any { $key eq $_ } ( @non_feeds, 'diabetes' );
 
         my $uri = uri( path => $user->content->{$key}, query => $query, );
 
@@ -37,10 +38,13 @@ SKIP: {
         ok( $feed,          "GET $uri" );
         ok( $feed->success, '200 code' );
 
-        if ( @{ $feed->content->{items} } ) {
-            my $uri  = $feed->content->{items}->[0]->{uri};
-            my $item = $graph->get($uri);
-            ok( $item->success, "GET $uri" );
+        if ( $feed->content && @{ $feed->content->{items} } ) {
+            my $item = $feed->content->{items}->[0];
+
+            # team items have "url"
+            my $uri = $item->{uri} || $item->{url};
+            my $item_response = $graph->get($uri);
+            ok( $item_response->success, "GET $uri" );
         }
     }
 

@@ -1,6 +1,7 @@
 Revision history for WebService-Runkeeper
 
 {{$NEXT}}
+    - Adds proper handling for team endpoint.
 
 0.000002  2016-06-08 23:00:50-04:00 America/Toronto
     - Adds more documentation and endpoints.

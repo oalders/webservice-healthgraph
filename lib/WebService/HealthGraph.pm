@@ -101,7 +101,7 @@ sub get {
 
     my @path_parts = $url->path_segments;
     shift @path_parts;    # first part is empty string with an absolute URL
-    my $top_level = $path_parts[0];
+    my $top_level = shift @path_parts;
 
     my %type = (
         backgroundActivities       => 'BackgroundActivitySet',
@@ -115,13 +115,19 @@ sub get {
         settings                   => 'Settings',
         sleep                      => 'SleepSet',
         strengthTrainingActivities => 'StrengthTrainingActivity',
-        team                       => 'Foo',
+        team                       => 'Team',
         user                       => 'User',
         weight                     => 'WeightSet',
     );
 
     unless ( exists $headers->{Accept} ) {
         my $accept = $type{$top_level};
+
+        # Weird exception to the rule
+        if ( @path_parts and $top_level eq 'team' ) {
+            $accept = 'Member';
+        }
+
         $accept .= 'Feed' if $feed;
 
         $headers->{Accept}
