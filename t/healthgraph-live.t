@@ -1,4 +1,5 @@
 use Test2::Bundle::Extended;
+use Test2::Plugin::BailOnFail;
 
 use Data::Printer;
 use List::AllUtils qw( any );
