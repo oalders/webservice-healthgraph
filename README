@@ -28,10 +28,27 @@ SYNOPSIS
             query => { noEarlierThan => $cutoff->ymd },
         );
 
-        my $feed = $graph->get($uri);
+        my $feed = $graph->get($uri, { feed => 1 });
         p $feed->content;
 
-  get( $url, [$headers] )
+  get( $url, $optional_args )
+    This module will try to do the right thing with the minimum amount of
+    information:
+
+        my $weight_response = $graph->get( 'weight', { feed => 1 } );
+        if ( $weight_response->success ) {
+            ...
+        }
+
+    Optionally, you can provide your own Accept (or other) headers:
+
+        my $record_response = $graph->get(
+            'records',
+            {
+                headers =>
+                    { Accept => 'application/vnd.com.runkeeper.Records+json' }
+            );
+
 DESCRIPTION
     BETA BETA BETA. The interface is subject to change.
 
@@ -40,6 +57,10 @@ DESCRIPTION
     with. You can use Mojolicious::Plugin::Web::Auth::Site::Runkeeper to
     create a token. If that doesn't suit you, patches to add OAuth token
     retrieval to this module will be happily accepted.
+
+CAVEATS
+    Most response content will contain a "HashRef", but the "records"
+    endpoint returns a response with an "ArrayRef" in the content.
 
 AUTHOR
     Olaf Alders <olaf@wundercounter.com>

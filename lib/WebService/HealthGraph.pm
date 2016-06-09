@@ -171,7 +171,29 @@ be happily accepted.
         query => { noEarlierThan => $cutoff->ymd },
     );
 
-    my $feed = $graph->get($uri);
+    my $feed = $graph->get($uri, { feed => 1 });
     p $feed->content;
 
-=head2 get( $url, [$headers] )
+=head2 get( $url, $optional_args )
+
+This module will try to do the right thing with the minimum amount of
+information:
+
+    my $weight_response = $graph->get( 'weight', { feed => 1 } );
+    if ( $weight_response->success ) {
+        ...
+    }
+
+Optionally, you can provide your own Accept (or other) headers:
+
+    my $record_response = $graph->get(
+        'records',
+        {
+            headers =>
+                { Accept => 'application/vnd.com.runkeeper.Records+json' }
+        );
+
+=head1 CAVEATS
+
+Most response content will contain a C<HashRef>, but the C<records> endpoint
+returns a response with an C<ArrayRef> in the content.
