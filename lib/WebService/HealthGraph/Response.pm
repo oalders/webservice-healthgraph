@@ -43,3 +43,16 @@ sub _build_success {
 1;
 __END__
 # ABSTRACT: Generic response object for WebService::HealthGraph
+
+=head2 content
+
+Returns either a C<HashRef> or an C<ArrayRef> of the content, depending on what
+the HealthGraph API returns.
+
+=head2 raw
+
+Returns the raw L<HTTP::Response> object.
+
+=head2 success
+
+Returns true if the HTTP request was fetched and parsed successfully.

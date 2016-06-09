@@ -174,6 +174,41 @@ be happily accepted.
     my $feed = $graph->get($uri, { feed => 1 });
     p $feed->content;
 
+=head1 CONSTRUCTOR ARGUMENTS
+
+=head2 base_url
+
+The URL of the API.  Defaults to L<https://api.runkeeper.com>.  This is
+settable in case you'd need this for mocking.
+
+=head2 debug( $bool )
+
+Turns on debugging via L<LWP::ConsoleLogger>.  Off by default.
+
+=head2 token
+
+OAuth token. Optional, but you'll need to to get any URLs.
+
+=head2 ua
+
+A user agent object of the L<LWP::UserAgent> family.  If you provide your own,
+be sure you set the correct default headers required for authentication.
+
+=head2 url_map
+
+Returns a map of keys to URLs, as provided by the C<user> endpoint.  Runkeeper
+wants you to use these URLs rather than constructing your own.
+
+=head2 user
+
+The content of the C<user> endpoint.
+
+=head2 user_id
+
+The id of the user as provided by the C<user> endpoint.
+
+=head1 METHODS
+
 =head2 get( $url, $optional_args )
 
 This module will try to do the right thing with the minimum amount of
@@ -192,6 +227,8 @@ Optionally, you can provide your own Accept (or other) headers:
             headers =>
                 { Accept => 'application/vnd.com.runkeeper.Records+json' }
         );
+
+Returns a L<WebService::HealthGraph::Response> object.
 
 =head1 CAVEATS
 
