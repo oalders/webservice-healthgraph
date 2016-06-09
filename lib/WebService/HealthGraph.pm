@@ -40,6 +40,13 @@ has ua => (
     builder => '_build_ua',
 );
 
+has url_map => (
+    is      => 'ro',
+    isa     => HashRef,
+    lazy    => 1,
+    builder => '_build_url_map',
+);
+
 has user => (
     is      => 'ro',
     isa     => InstanceOf ['WebService::HealthGraph::Response'],
@@ -65,6 +72,13 @@ sub _build_ua {
     require LWP::ConsoleLogger::Easy;
     LWP::ConsoleLogger::Easy::debug_ua($ua);
     return $ua;
+}
+
+sub _build_url_map {
+    my $self = shift;
+    my %map  = %{ $self->user->{content} };
+    delete $map{userID};
+    return \%map;
 }
 
 sub _build_user {
