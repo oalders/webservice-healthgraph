@@ -1,6 +1,7 @@
 Revision history for WebService-Runkeeper
 
 {{$NEXT}}
+    - Adds more documentation and endpoints.
 
 0.000001  2016-06-08 00:18:52-04:00 America/Toronto
     - Initial release.

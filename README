@@ -3,7 +3,7 @@ NAME
     Graph) API
 
 VERSION
-    version 0.000001
+    version 0.000002
 
 SYNOPSIS
         my $graph = WebService::HealthGraph->new(
@@ -31,6 +31,42 @@ SYNOPSIS
         my $feed = $graph->get($uri, { feed => 1 });
         p $feed->content;
 
+DESCRIPTION
+    BETA BETA BETA. The interface is subject to change.
+
+    This is a very thin wrapper around the Runkeeper (Health Graph) API. At
+    this point it assumes that you already have an OAuth token to connect
+    with. You can use Mojolicious::Plugin::Web::Auth::Site::Runkeeper to
+    create a token. If that doesn't suit you, patches to add OAuth token
+    retrieval to this module will be happily accepted.
+
+CONSTRUCTOR ARGUMENTS
+  base_url
+    The URL of the API. Defaults to <https://api.runkeeper.com>. This is
+    settable in case you'd need this for mocking.
+
+  debug( $bool )
+    Turns on debugging via LWP::ConsoleLogger. Off by default.
+
+  token
+    OAuth token. Optional, but you'll need to to get any URLs.
+
+  ua
+    A user agent object of the LWP::UserAgent family. If you provide your
+    own, be sure you set the correct default headers required for
+    authentication.
+
+  url_map
+    Returns a map of keys to URLs, as provided by the "user" endpoint.
+    Runkeeper wants you to use these URLs rather than constructing your own.
+
+  user
+    The content of the "user" endpoint.
+
+  user_id
+    The id of the user as provided by the "user" endpoint.
+
+METHODS
   get( $url, $optional_args )
     This module will try to do the right thing with the minimum amount of
     information:
@@ -49,14 +85,7 @@ SYNOPSIS
                     { Accept => 'application/vnd.com.runkeeper.Records+json' }
             );
 
-DESCRIPTION
-    BETA BETA BETA. The interface is subject to change.
-
-    This is a very thin wrapper around the Runkeeper (Health Graph) API. At
-    this point it assumes that you already have an OAuth token to connect
-    with. You can use Mojolicious::Plugin::Web::Auth::Site::Runkeeper to
-    create a token. If that doesn't suit you, patches to add OAuth token
-    retrieval to this module will be happily accepted.
+    Returns a WebService::HealthGraph::Response object.
 
 CAVEATS
     Most response content will contain a "HashRef", but the "records"
