@@ -104,6 +104,7 @@ sub get {
 
     my %type = (
         backgroundActivities       => 'BackgroundActivitySet',
+        changeLog                  => 'ChangeLog',
         diabetes                   => 'DiabetesMeasurementSet',
         fitnessActivities          => 'FitnessActivity',
         generalMeasurements        => 'GeneralMeasurementSet',

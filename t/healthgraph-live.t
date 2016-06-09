@@ -23,30 +23,28 @@ SKIP: {
     ok( $graph->url_map, 'url_map' );
     diag np $graph->url_map;
 
+    # Test feeds
     my $query
         = { noEarlierThan => DateTime->now->subtract( days => 7 )->ymd };
-    $query = {};
-
-    # Test feeds
     foreach my $key ( sort keys %{ $graph->url_map } ) {
         next
             if any { $key eq $_ }
         (
             'change_log', 'diabetes', 'profile', 'records', 'settings',
             'team',
-            'userID'
         );
 
-        my $uri = uri(
-            path  => $user->content->{$key},
-            query => $query,
-        );
+        my $uri = uri( path => $user->content->{$key}, query => $query, );
 
         my $feed = $graph->get( $uri, { feed => 1 } );
         ok( $feed,          "GET $uri" );
         ok( $feed->success, '200 code' );
-        diag np $feed->content;
+    }
 
+    foreach my $type ( 'change_log', 'profile', 'settings', 'records', ) {
+        my $res = $graph->get( $graph->url_map->{$type} );
+        ok( $res->success, $type );
+        diag np $res->content;
     }
 }
 
