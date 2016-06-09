@@ -20,22 +20,29 @@ SKIP: {
     my $user = $graph->user;
     ok( $user,           'get_user' );
     ok( $graph->user_id, 'user_id' );
+    ok( $graph->url_map, 'url_map' );
+    diag np $graph->url_map;
 
-    diag np $user->content;
     my $query
         = { noEarlierThan => DateTime->now->subtract( days => 7 )->ymd };
+    $query = {};
 
-    foreach my $key ( keys %{ $user->content } ) {
+    # Test feeds
+    foreach my $key ( sort keys %{ $graph->url_map } ) {
         next
             if any { $key eq $_ }
-        ( 'change_log', 'diabetes', 'records', 'settings', 'team', 'userID' );
+        (
+            'change_log', 'diabetes', 'profile', 'records', 'settings',
+            'team',
+            'userID'
+        );
 
         my $uri = uri(
             path  => $user->content->{$key},
             query => $query,
         );
 
-        my $feed = $graph->get($uri);
+        my $feed = $graph->get( $uri, { feed => 1 } );
         ok( $feed,          "GET $uri" );
         ok( $feed->success, '200 code' );
         diag np $feed->content;

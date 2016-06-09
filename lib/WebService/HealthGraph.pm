@@ -89,7 +89,9 @@ sub _build_user {
 sub get {
     my $self    = shift;
     my $url     = URI->new(shift);
-    my $headers = shift || {};
+    my $args    = shift;
+    my $headers = $args->{headers} || {};
+    my $feed    = $args->{feed} || 0;
 
     my $path = $url->path;
 
@@ -102,7 +104,7 @@ sub get {
 
     my %type = (
         backgroundActivities       => 'BackgroundActivitySet',
-        diabetes                   => 'DiabetesMeasurement',
+        diabetes                   => 'DiabetesMeasurementSet',
         fitnessActivities          => 'FitnessActivity',
         generalMeasurements        => 'GeneralMeasurementSet',
         nutrition                  => 'NutritionSet',
@@ -118,16 +120,7 @@ sub get {
 
     unless ( exists $headers->{Accept} ) {
         my $accept = $type{$top_level};
-
-        # Distinguish between fetching a single item and a feed of items.
-        unless (
-            any { $top_level eq $_ }
-            ( 'diabetes', 'user', 'profile', 'records' )
-            ) {
-            unless ( scalar @path_parts > 1 ) {
-                $accept .= 'Feed';
-            }
-        }
+        $accept .= 'Feed' if $feed;
 
         $headers->{Accept}
             = sprintf( 'application/vnd.com.runkeeper.%s+json', $accept );
