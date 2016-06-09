@@ -4,12 +4,9 @@ package WebService::HealthGraph;
 
 use Moo 2.001001;
 
-use Compress::Zlib qw( memGunzip );
-use JSON::MaybeXS 1.003005 qw( decode_json );
-use List::AllUtils qw( any );
 use LWP::UserAgent 6.15 ();
 use WebService::HealthGraph::Response ();
-use Type::Tiny 1.000005;
+use Type::Tiny 1.000005;    # force minimum version
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
 use URI 1.71 ();
@@ -207,7 +204,7 @@ wants you to use these URLs rather than constructing your own.
 
 =head2 user
 
-The content of the C<user> endpoint.
+The L<WebService::HealthGraph::Response> object for the C<user> endpoint.
 
 =head2 user_id
 

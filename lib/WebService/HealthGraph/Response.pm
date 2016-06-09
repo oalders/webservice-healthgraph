@@ -2,7 +2,7 @@ package WebService::HealthGraph::Response;
 
 use Moo;
 
-use JSON::MaybeXS qw( decode_json );
+use JSON::MaybeXS 1.003005 qw( decode_json );
 use Types::Standard qw( Bool InstanceOf Maybe Ref );
 
 # records could be an ArrayRef. other than that, we should be mostly dealing
