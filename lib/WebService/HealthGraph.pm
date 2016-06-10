@@ -207,6 +207,13 @@ be sure you set the correct default headers required for authentication.
 Returns a map of keys to URLs, as provided by the C<user> endpoint.  Runkeeper
 wants you to use these URLs rather than constructing your own.
 
+=head2 url_for
+
+Gives you the corresponding url for any key which exists in C<url_map>
+
+    my $friends
+        = $runkeeper->get( $runkeeper->url_for('team'), { feed => 1 } );
+
 =head2 user
 
 The L<WebService::HealthGraph::Response> object for the C<user> endpoint.
