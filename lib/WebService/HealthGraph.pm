@@ -4,12 +4,12 @@ package WebService::HealthGraph;
 
 use Moo 2.001001;
 
-use LWP::UserAgent 6.15 ();
-use WebService::HealthGraph::Response ();
+use LWP::UserAgent 6.15       ();
 use Type::Tiny 1.000005;    # force minimum version
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
 use URI 1.71 ();
+use WebService::HealthGraph::Response ();
 
 has base_url => (
     is      => 'ro',
@@ -39,8 +39,8 @@ has ua => (
 );
 
 has url_map => (
-    is      => 'ro',
-    isa     => HashRef,
+    is          => 'ro',
+    isa         => HashRef,
     lazy    => 1,
     builder => '_build_url_map',
 );
@@ -74,7 +74,7 @@ sub _build_ua {
 
 sub _build_url_map {
     my $self = shift;
-    my %map  = %{ $self->user->{content} };
+    my %map  = %{ $self->user->content };
     delete $map{userID};
     return \%map;
 }
@@ -133,6 +133,12 @@ sub get {
 
     my $res = $self->ua->get( $url, %{$headers} );
     return WebService::HealthGraph::Response->new( raw => $res );
+}
+
+sub url_for {
+    my $self = shift;
+    my $type = shift;
+    return $self->url_map->{ $type };
 }
 
 1;
