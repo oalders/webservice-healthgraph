@@ -3,15 +3,15 @@ NAME
     Graph) API
 
 VERSION
-    version 0.000002
+    version 0.000003
 
 SYNOPSIS
-        my $graph = WebService::HealthGraph->new(
+        my $runkeeper = WebService::HealthGraph->new(
             debug => 1,
             token => 'foo',
         );
 
-        my $user = $graph->user;
+        my $user = $runkeeper->user;
 
         use Data::Printer;
         p $user->content;
@@ -28,7 +28,7 @@ SYNOPSIS
             query => { noEarlierThan => $cutoff->ymd },
         );
 
-        my $feed = $graph->get($uri, { feed => 1 });
+        my $feed = $runkeeper->get($uri, { feed => 1 });
         p $feed->content;
 
 DESCRIPTION
@@ -60,6 +60,12 @@ CONSTRUCTOR ARGUMENTS
     Returns a map of keys to URLs, as provided by the "user" endpoint.
     Runkeeper wants you to use these URLs rather than constructing your own.
 
+  url_for
+    Gives you the corresponding url for any key which exists in "url_map"
+
+        my $friends
+            = $runkeeper->get( $runkeeper->url_for('team'), { feed => 1 } );
+
   user
     The WebService::HealthGraph::Response object for the "user" endpoint.
 
@@ -71,14 +77,14 @@ METHODS
     This module will try to do the right thing with the minimum amount of
     information:
 
-        my $weight_response = $graph->get( 'weight', { feed => 1 } );
+        my $weight_response = $runkeeper->get( 'weight', { feed => 1 } );
         if ( $weight_response->success ) {
             ...
         }
 
     Optionally, you can provide your own Accept (or other) headers:
 
-        my $record_response = $graph->get(
+        my $record_response = $runkeeper->get(
             'records',
             {
                 headers =>
