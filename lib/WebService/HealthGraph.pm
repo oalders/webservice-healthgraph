@@ -157,12 +157,12 @@ be happily accepted.
 
 =head1 SYNOPSIS
 
-    my $graph = WebService::HealthGraph->new(
+    my $runkeeper = WebService::HealthGraph->new(
         debug => 1,
         token => 'foo',
     );
 
-    my $user = $graph->user;
+    my $user = $runkeeper->user;
 
     use Data::Printer;
     p $user->content;
@@ -179,7 +179,7 @@ be happily accepted.
         query => { noEarlierThan => $cutoff->ymd },
     );
 
-    my $feed = $graph->get($uri, { feed => 1 });
+    my $feed = $runkeeper->get($uri, { feed => 1 });
     p $feed->content;
 
 =head1 CONSTRUCTOR ARGUMENTS
@@ -222,14 +222,14 @@ The id of the user as provided by the C<user> endpoint.
 This module will try to do the right thing with the minimum amount of
 information:
 
-    my $weight_response = $graph->get( 'weight', { feed => 1 } );
+    my $weight_response = $runkeeper->get( 'weight', { feed => 1 } );
     if ( $weight_response->success ) {
         ...
     }
 
 Optionally, you can provide your own Accept (or other) headers:
 
-    my $record_response = $graph->get(
+    my $record_response = $runkeeper->get(
         'records',
         {
             headers =>

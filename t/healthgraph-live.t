@@ -10,31 +10,31 @@ use WebService::HealthGraph;
 SKIP: {
     skip 'Token required for live tests', 1 unless $ENV{RUNKEEPER_TOKEN};
 
-    my $graph = WebService::HealthGraph->new(
+    my $runkeeper = WebService::HealthGraph->new(
         debug => 1,
         token => $ENV{RUNKEEPER_TOKEN},
     );
-    ok( $graph,           'compiles' );
-    ok( $graph->ua,       'ua' );
-    ok( $graph->base_url, 'base_url' );
+    ok( $runkeeper,           'compiles' );
+    ok( $runkeeper->ua,       'ua' );
+    ok( $runkeeper->base_url, 'base_url' );
 
-    my $user = $graph->user;
-    ok( $user,           'get_user' );
-    ok( $graph->user_id, 'user_id' );
-    ok( $graph->url_map, 'url_map' );
-    diag( np( $graph->url_map ) );
+    my $user = $runkeeper->user;
+    ok( $user,               'get_user' );
+    ok( $runkeeper->user_id, 'user_id' );
+    ok( $runkeeper->url_map, 'url_map' );
+    diag( np( $runkeeper->url_map ) );
 
     my @non_feeds = ( 'change_log', 'profile', 'settings', 'records', );
 
     # Test feeds
     my $query
         = { noEarlierThan => DateTime->now->subtract( days => 7 )->ymd };
-    foreach my $key ( sort keys %{ $graph->url_map } ) {
+    foreach my $key ( sort keys %{ $runkeeper->url_map } ) {
         next if any { $key eq $_ } ( @non_feeds, 'diabetes' );
 
         my $uri = uri( path => $user->content->{$key}, query => $query, );
 
-        my $feed = $graph->get( $uri, { feed => 1 } );
+        my $feed = $runkeeper->get( $uri, { feed => 1 } );
         ok( $feed,          "GET $uri" );
         ok( $feed->success, '200 code' );
 
@@ -43,13 +43,13 @@ SKIP: {
 
             # team items have "url"
             my $uri = $item->{uri} || $item->{url};
-            my $item_response = $graph->get($uri);
+            my $item_response = $runkeeper->get($uri);
             ok( $item_response->success, "GET $uri" );
         }
     }
 
     foreach my $type (@non_feeds) {
-        my $res = $graph->get( $graph->url_map->{$type} );
+        my $res = $runkeeper->get( $runkeeper->url_map->{$type} );
         ok( $res->success, $type );
     }
 }
