@@ -1,6 +1,8 @@
 Revision history for WebService-Runkeeper
 
 {{$NEXT}}
+
+0.000003  2016-06-10 08:54:10-04:00 America/Toronto
     - Adds proper handling for team endpoint.
     - Adds url_for() method.
 
