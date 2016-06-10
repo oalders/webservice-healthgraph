@@ -2,13 +2,12 @@ use strict;
 use warnings;
 package WebService::HealthGraph;
 
-use Moo 2.001001;
+use Moo;
 
-use LWP::UserAgent 6.15       ();
-use Type::Tiny 1.000005;    # force minimum version
+use LWP::UserAgent ();
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
-use URI 1.71 ();
+use URI                               ();
 use WebService::HealthGraph::Response ();
 
 has base_url => (
@@ -39,8 +38,8 @@ has ua => (
 );
 
 has url_map => (
-    is          => 'ro',
-    isa         => HashRef,
+    is      => 'ro',
+    isa     => HashRef,
     lazy    => 1,
     builder => '_build_url_map',
 );
@@ -138,7 +137,7 @@ sub get {
 sub url_for {
     my $self = shift;
     my $type = shift;
-    return $self->url_map->{ $type };
+    return $self->url_map->{$type};
 }
 
 1;

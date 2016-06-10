@@ -61,7 +61,7 @@ CONSTRUCTOR ARGUMENTS
     Runkeeper wants you to use these URLs rather than constructing your own.
 
   user
-    The content of the "user" endpoint.
+    The WebService::HealthGraph::Response object for the "user" endpoint.
 
   user_id
     The id of the user as provided by the "user" endpoint.
