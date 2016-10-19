@@ -12,9 +12,9 @@ use WebService::HealthGraph::Response ();
 
 has base_url => (
     is      => 'ro',
-    isa     => InstanceOf ['URI'],
+    isa     => Uri,
     lazy    => 1,
-    default => sub { URI->new('https://api.runkeeper.com') },
+    default => 'https://api.runkeeper.com',
     coerce  => 1,
 );
 
@@ -85,10 +85,12 @@ sub _build_user {
 
 sub get {
     my $self    = shift;
-    my $url     = URI->new(shift);
+    my $url     = shift;
     my $args    = shift;
     my $headers = $args->{headers} || {};
     my $feed    = $args->{feed} || 0;
+
+    $url = URI->new($url) unless ref $url;
 
     my $path = $url->path;
 
