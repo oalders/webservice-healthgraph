@@ -132,8 +132,15 @@ sub get {
             = sprintf( 'application/vnd.com.runkeeper.%s+json', $accept );
     }
 
+    # Fix up URLs with a semicolon delimiter.
+    if ( $url =~ m{;} ) {
+        $url = $url->as_string;
+        $url =~ s{;}{&}g;
+    }
+
     my $res = $self->ua->get( $url, %{$headers} );
-    return WebService::HealthGraph::Response->new( raw => $res );
+    return WebService::HealthGraph::Response->new(
+        get => sub { $self->get( shift, $args ) }, raw => $res );
 }
 
 sub url_for {

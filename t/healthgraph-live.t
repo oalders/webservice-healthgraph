@@ -2,17 +2,18 @@ use Test2::Bundle::Extended;
 use Test2::Plugin::BailOnFail;
 
 use Data::Printer;
+use DateTime ();
 use List::AllUtils qw( any );
 use Test::RequiresInternet ( 'api.runkeeper.com' => 443 );
 use URI::FromHash qw( uri );
-use WebService::HealthGraph;
+use WebService::HealthGraph ();
 
 SKIP: {
-    skip 'Token required for live tests', 1 unless $ENV{RUNKEEPER_TOKEN};
+    skip 'Token required for live tests', 1 unless $ENV{HEALTHGRAPH_TOKEN};
 
     my $runkeeper = WebService::HealthGraph->new(
         debug => 1,
-        token => $ENV{RUNKEEPER_TOKEN},
+        token => $ENV{HEALTHGRAPH_TOKEN},
     );
     ok( $runkeeper,           'compiles' );
     ok( $runkeeper->ua,       'ua' );
@@ -52,6 +53,26 @@ SKIP: {
     foreach my $type (@non_feeds) {
         my $res = $runkeeper->get( $runkeeper->url_map->{$type} );
         ok( $res->success, $type );
+    }
+
+    # Test iterator
+    use URI::FromHash qw( uri );
+
+    my $uri = uri(
+        path            => '/weight',
+        query           => { pageSize => 1, },
+        query_separator => '&',
+    );
+
+    my $feed = $runkeeper->get( $uri, { feed => 1 } );
+
+    my $count;
+    while ( my $item = $feed->next ) {
+        ++$count;
+        if ( $count == 1 ) {
+            diag $feed->next_page_uri;
+        }
+        last if $count > 2;
     }
 }
 
