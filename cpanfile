@@ -1,3 +1,4 @@
+requires "Array::Iterator" => "0";
 requires "JSON::MaybeXS" => "1.003005";
 requires "LWP::ConsoleLogger::Easy" => "0";
 requires "LWP::Protocol::https" => "0";
@@ -17,6 +18,7 @@ on 'build' => sub {
 
 on 'test' => sub {
   requires "Data::Printer" => "0";
+  requires "DateTime" => "0";
   requires "List::AllUtils" => "0";
   requires "Test2::Bundle::Extended" => "0";
   requires "Test2::Plugin::BailOnFail" => "0";
