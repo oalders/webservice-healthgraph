@@ -89,7 +89,7 @@ sub next {
     my $row  = $self->_iterator->get_next;
     return $row if $row;
     if ( $self->auto_pagination ) {
-        my $result = $self->next_page;
+        my $result = $self->_next_page;
         return unless $result;
         $self->_reset;
         $self->_set_raw( $result->raw );
@@ -98,7 +98,7 @@ sub next {
     return;
 }
 
-sub next_page {
+sub _next_page {
     my $self = shift;
     return unless $self->next_page_uri;
     return $self->_get->( $self->next_page_uri );
