@@ -8,7 +8,7 @@ my $runkeeper
 ok( $runkeeper,           'compiles' );
 ok( $runkeeper->ua,       'ua' );
 ok( $runkeeper->base_url, 'base_url' );
-is( $runkeeper->url_for('foo'), 'bar', 'url_for' );
+is( $runkeeper->uri_for('foo'), 'bar', 'uri_for' );
 
 my $user_response = $runkeeper->user;
 ok( $user_response, 'get_user' );

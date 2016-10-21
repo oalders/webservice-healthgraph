@@ -7,7 +7,8 @@ use Moo;
 use LWP::UserAgent ();
 use Types::Standard qw( Bool HashRef InstanceOf Int Str );
 use Types::URI qw( Uri );
-use URI                               ();
+use URI ();
+use URI::FromHash qw( uri );
 use WebService::HealthGraph::Response ();
 
 has base_url => (
@@ -143,10 +144,24 @@ sub get {
         get => sub { $self->get( shift, $args ) }, raw => $res );
 }
 
-sub url_for {
-    my $self = shift;
-    my $type = shift;
-    return $self->url_map->{$type};
+sub url_for { return shift->uri_for(@_) }
+
+sub uri_for {
+    my $self  = shift;
+    my $type  = shift;
+    my $query = shift;
+
+    die "type $type not found" unless exists $self->url_map->{$type};
+
+    return uri(
+        path => $self->url_map->{$type},
+        $query
+        ? (
+            query           => $query,
+            query_separator => '&',
+            )
+        : (),
+    );
 }
 
 1;
@@ -216,12 +231,18 @@ be sure you set the correct default headers required for authentication.
 Returns a map of keys to URLs, as provided by the C<user> endpoint.  Runkeeper
 wants you to use these URLs rather than constructing your own.
 
-=head2 url_for
+=head2 uri_for
 
-Gives you the corresponding url for any key which exists in C<url_map>
+Gives you the corresponding url (in the form of an L<URI> object) for any key
+which exists in C<url_map>.  You can optionally pass a HashRef of query params
+to this method.
 
-    my $friends
-        = $runkeeper->get( $runkeeper->url_for('team'), { feed => 1 } );
+    my $team_uri =  $runkeeper->uri_for( 'team', { pageSize => 10 } );
+
+    my $friends = $runkeeper->get(
+        $runkeeper->uri_for( 'team', { pageSize => 10 } ),
+        { feed => 1 }
+    );
 
 =head2 user
 

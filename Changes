@@ -1,6 +1,7 @@
 Revision history for WebService-Runkeeper
 
 {{$NEXT}}
+    - url_for() is now uri_for() and accepts query params as a second arg.
 
 0.000003  2016-06-10 08:54:10-04:00 America/Toronto
     - Adds proper handling for team endpoint.

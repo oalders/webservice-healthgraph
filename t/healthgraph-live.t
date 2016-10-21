@@ -24,7 +24,7 @@ SKIP: {
     ok( $runkeeper->user_id, 'user_id' );
     ok( $runkeeper->url_map, 'url_map' );
     diag( np( $runkeeper->url_map ) );
-    ok( $runkeeper->url_for('team'), 'url_for team' );
+    ok( $runkeeper->uri_for('team'), 'uri_for team' );
 
     my @non_feeds = ( 'change_log', 'profile', 'settings', 'records', );
 

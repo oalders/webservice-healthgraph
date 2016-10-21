@@ -14,16 +14,14 @@ my $runkeeper = WebService::HealthGraph->new(
 );
 
 my $user = $runkeeper->user;
-
 p $user->content;
 
 # Fetch a weight feed
 my $cutoff = DateTime->now->subtract( days => 28 );
 
-my $uri = uri(
-    path            => '/weight',
-    query           => { noEarlierThan => $cutoff->ymd, pageSize => 10, },
-    query_separator => '&',
+my $uri = $runkeeper->uri_for(
+    'weight',
+    { noEarlierThan => $cutoff->ymd, pageSize => 10, },
 );
 
 my $feed = $runkeeper->get( $uri, { feed => 1 } );
