@@ -117,10 +117,35 @@ sub _reset {
 __END__
 # ABSTRACT: Generic response object for WebService::HealthGraph
 
+=head1 CONSTRUCTOR
+
+=head2 new
+
+Creates a new object.
+
+=over
+
+=item auto_pagination
+
+Boolean.  If enabled, this object will continue to fetch new result pages as
+the iterator requires them.  Defaults to true.
+
+=back
+
 =head2 content
 
 Returns either a C<HashRef> or an C<ArrayRef> of the content, depending on what
 the HealthGraph API returns.
+
+=head2 next
+
+This method iterates over the items in the response content, returning one
+HashRef at a time.
+
+=head2 next_page_uri
+
+Returns the URL of the next page of results, in the form of a L<URI> object.
+Returns C<undef> if there is no next page.
 
 =head2 raw
 
