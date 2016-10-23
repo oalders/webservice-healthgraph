@@ -59,6 +59,8 @@ has user_id => (
     default => sub { shift->user->content->{userID} },
 );
 
+with 'WebService::HealthGraph::Role::HasAutoPagination';
+
 sub _build_ua {
     my $self = shift;
     my $ua   = LWP::UserAgent->new;
@@ -207,6 +209,11 @@ be happily accepted.
     p $feed->content;
 
 =head1 CONSTRUCTOR ARGUMENTS
+
+=item auto_pagination
+
+Boolean.  If enabled, response objects will continue to fetch new result pages
+as the iterator requires them.  Defaults to true.
 
 =head2 base_url
 

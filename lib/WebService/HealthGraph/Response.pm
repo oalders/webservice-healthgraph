@@ -10,12 +10,6 @@ use Types::URI qw( Uri );
 # records could be an ArrayRef. other than that, we should be mostly dealing
 # with a HashRef
 
-has auto_pagination => (
-    is      => 'ro',
-    isa     => Bool,
-    default => 1,
-);
-
 has content => (
     is      => 'ro',
     isa     => Maybe [Ref],
@@ -64,6 +58,8 @@ has success => (
     clearer => '_clear_success',
     builder => '_build_success',
 );
+
+with 'WebService::HealthGraph::Role::HasAutoPagination';
 
 sub _build_content {
     my $self    = shift;
@@ -128,7 +124,8 @@ Creates a new object.
 =item auto_pagination
 
 Boolean.  If enabled, this object will continue to fetch new result pages as
-the iterator requires them.  Defaults to true.
+the iterator requires them.  This option is inherited directly from the
+L<WebService::HealthGraph> object.
 
 =back
 
@@ -154,3 +151,5 @@ Returns the raw L<HTTP::Response> object.
 =head2 success
 
 Returns true if the HTTP request was fetched and parsed successfully.
+
+=cut

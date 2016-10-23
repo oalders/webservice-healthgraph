@@ -3,8 +3,12 @@ use Test2::Bundle::Extended;
 use Test::RequiresInternet ( 'api.runkeeper.com' => 443 );
 use WebService::HealthGraph;
 
-my $runkeeper
-    = WebService::HealthGraph->new( debug => 1, url_map => { foo => 'bar' } );
+my $runkeeper = WebService::HealthGraph->new(
+    auto_pagination => 0,
+    debug           => 1,
+    url_map         => { foo => 'bar' }
+);
+
 ok( $runkeeper,           'compiles' );
 ok( $runkeeper->ua,       'ua' );
 ok( $runkeeper->base_url, 'base_url' );
