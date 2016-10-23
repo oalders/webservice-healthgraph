@@ -251,6 +251,11 @@ to this method.
         { feed => 1 }
     );
 
+=head2 url_for
+
+Convenience method which points to C<url_for>.  Will be removed in a later
+release.
+
 =head2 user
 
 The L<WebService::HealthGraph::Response> object for the C<user> endpoint.
