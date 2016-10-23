@@ -6,7 +6,7 @@ WebService::HealthGraph - A thin wrapper around the Runkeeper (Health Graph) API
 
 # VERSION
 
-version 0.000003
+version 0.000004
 
 # SYNOPSIS
 
@@ -47,6 +47,11 @@ be happily accepted.
 
 # CONSTRUCTOR ARGUMENTS
 
+## auto\_pagination
+
+Boolean.  If enabled, response objects will continue to fetch new result pages
+as the iterator requires them.  Defaults to true.
+
 ## base\_url
 
 The URL of the API.  Defaults to [https://api.runkeeper.com](https://api.runkeeper.com).  This is
@@ -70,12 +75,18 @@ be sure you set the correct default headers required for authentication.
 Returns a map of keys to URLs, as provided by the `user` endpoint.  Runkeeper
 wants you to use these URLs rather than constructing your own.
 
-## url\_for
+## uri\_for
 
-Gives you the corresponding url for any key which exists in `url_map`
+Gives you the corresponding url (in the form of an [URI](https://metacpan.org/pod/URI) object) for any key
+which exists in `url_map`.  You can optionally pass a HashRef of query params
+to this method.
 
-    my $friends
-        = $runkeeper->get( $runkeeper->url_for('team'), { feed => 1 } );
+    my $team_uri =  $runkeeper->uri_for( 'team', { pageSize => 10 } );
+
+    my $friends = $runkeeper->get(
+        $runkeeper->uri_for( 'team', { pageSize => 10 } ),
+        { feed => 1 }
+    );
 
 ## user
 

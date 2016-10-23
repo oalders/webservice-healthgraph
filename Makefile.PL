@@ -23,10 +23,12 @@ my %WriteMakefileArgs = (
     "LWP::Protocol::https" => 0,
     "LWP::UserAgent" => "6.15",
     "Moo" => "2.001001",
+    "Moo::Role" => 0,
     "Type::Tiny" => "1.000005",
     "Types::Standard" => 0,
     "Types::URI" => 0,
     "URI" => "1.71",
+    "URI::FromHash" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -36,10 +38,9 @@ my %WriteMakefileArgs = (
     "List::AllUtils" => 0,
     "Test2::Bundle::Extended" => 0,
     "Test2::Plugin::BailOnFail" => 0,
-    "Test::RequiresInternet" => 0,
-    "URI::FromHash" => 0
+    "Test::RequiresInternet" => 0
   },
-  "VERSION" => "0.000003",
+  "VERSION" => "0.000004",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -56,6 +57,7 @@ my %FallbackPrereqs = (
   "LWP::UserAgent" => "6.15",
   "List::AllUtils" => 0,
   "Moo" => "2.001001",
+  "Moo::Role" => 0,
   "Test2::Bundle::Extended" => 0,
   "Test2::Plugin::BailOnFail" => 0,
   "Test::RequiresInternet" => 0,

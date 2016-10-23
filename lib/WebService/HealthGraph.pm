@@ -210,7 +210,7 @@ be happily accepted.
 
 =head1 CONSTRUCTOR ARGUMENTS
 
-=item auto_pagination
+=head2 auto_pagination
 
 Boolean.  If enabled, response objects will continue to fetch new result pages
 as the iterator requires them.  Defaults to true.
