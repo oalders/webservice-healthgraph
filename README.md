@@ -88,6 +88,11 @@ to this method.
         { feed => 1 }
     );
 
+## url\_for
+
+Convenience method which points to `url_for`.  Will be removed in a later
+release.
+
 ## user
 
 The [WebService::HealthGraph::Response](https://metacpan.org/pod/WebService::HealthGraph::Response) object for the `user` endpoint.

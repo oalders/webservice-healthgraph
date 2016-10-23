@@ -4,7 +4,6 @@ requires "LWP::ConsoleLogger::Easy" => "0";
 requires "LWP::Protocol::https" => "0";
 requires "LWP::UserAgent" => "6.15";
 requires "Moo" => "2.001001";
-requires "Moo::Role" => "0";
 requires "Type::Tiny" => "1.000005";
 requires "Types::Standard" => "0";
 requires "Types::URI" => "0";

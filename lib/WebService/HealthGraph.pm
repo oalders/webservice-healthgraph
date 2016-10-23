@@ -11,6 +11,12 @@ use URI ();
 use URI::FromHash qw( uri );
 use WebService::HealthGraph::Response ();
 
+has auto_pagination => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 1,
+);
+
 has base_url => (
     is      => 'ro',
     isa     => Uri,
@@ -58,8 +64,6 @@ has user_id => (
     lazy    => 1,
     default => sub { shift->user->content->{userID} },
 );
-
-with 'WebService::HealthGraph::Role::HasAutoPagination';
 
 sub _build_ua {
     my $self = shift;

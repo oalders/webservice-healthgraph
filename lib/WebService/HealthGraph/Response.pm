@@ -10,6 +10,13 @@ use Types::URI qw( Uri );
 # records could be an ArrayRef. other than that, we should be mostly dealing
 # with a HashRef
 
+has _auto_pagination => (
+    is       => 'ro',
+    isa      => Bool,
+    init_arg => 'auto_pagination',
+    default  => 1,
+);
+
 has content => (
     is      => 'ro',
     isa     => Maybe [Ref],
@@ -21,7 +28,6 @@ has content => (
 has _get => (
     is       => 'ro',
     isa      => CodeRef,
-    required => 1,
     init_arg => 'get',
 );
 
@@ -59,8 +65,6 @@ has success => (
     builder => '_build_success',
 );
 
-with 'WebService::HealthGraph::Role::HasAutoPagination';
-
 sub _build_content {
     my $self    = shift;
     my $content = $self->raw->decoded_content;
@@ -84,7 +88,7 @@ sub next {
     my $self = shift;
     my $row  = $self->_iterator->get_next;
     return $row if $row;
-    if ( $self->auto_pagination ) {
+    if ( $self->_auto_pagination ) {
         my $result = $self->_next_page;
         return unless $result;
         $self->_reset;
@@ -113,19 +117,18 @@ sub _reset {
 __END__
 # ABSTRACT: Generic response object for WebService::HealthGraph
 
-=head1 CONSTRUCTOR
-
-=head2 new
-
-Creates a new object.
+=head1 CONSTRUCTOR ARGUMENTS
 
 =over
 
-=item auto_pagination
+=item get
 
-Boolean.  If enabled, this object will continue to fetch new result pages as
-the iterator requires them.  This option is inherited directly from the
-L<WebService::HealthGraph> object.
+A C<CodeRef> which can be used to fetch subsequent pages.  Only useful if
+C<auto_pagination> is C<true>.
+
+=item raw
+
+An L<HTTP::Response> object.
 
 =back
 
