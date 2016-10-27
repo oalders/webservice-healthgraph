@@ -1,6 +1,8 @@
 Revision history for WebService-Runkeeper
 
 {{$NEXT}}
+
+0.000004  2016-10-27 09:55:25-04:00 America/Toronto
     - url_for() is now uri_for() and accepts query params as a second arg.
     - Response objects now support pagination.
 
